@@ -46,10 +46,15 @@ async function run() {
         res.send(result);
     })
 
-    app.post('/bookingParcels', async(req, res) =>{
-      const user = req.body;
-      const 
+    // Parcel related api
+
+    app.get('/bookingParcels')
+    app.post('/bookingParcel', async(req, res) =>{
+      const parcelData = req.body;
+      const result = await parcelsCollection.insertOne(parcelData)
+      res.send(result)
     })
+    
 
 
 
