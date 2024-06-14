@@ -26,13 +26,37 @@ async function run() {
   try {
     // await client.connect();
     const userCollection = client.db("ParcelPathways").collection("users");
+    const parcelsCollection = client.db("ParcelPathways").collection("bookingParcels");
     
     // Users related api
+    app.get('/users', async(req, res) =>{
+        const result = await userCollection.find().toArray();
+        res.send(result);
+    });
+
     app.post('/users', async(req, res) =>{
         const user = req.body;
+        // insert email if user doesn't exist
+        const query = {email: user.email}
+        const existingUser = await userCollection.findOne(query);
+        if(existingUser){
+          return res.send({message: "user already exist", insertedId: null})
+        }
         const result = await userCollection.insertOne(user);
         res.send(result);
     })
+
+    app.post('/bookingParcels', async(req, res) =>{
+      const user = req.body;
+      const 
+    })
+
+
+
+
+
+
+
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
