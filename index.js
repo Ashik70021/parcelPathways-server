@@ -48,7 +48,11 @@ async function run() {
 
     // Parcel related api
 
-    app.get('/bookingParcels')
+    app.get('/bookingParcels', async (req, res) =>{
+      const result = await parcelsCollection.find().toArray()
+      res.send(result)
+    })
+    
     app.post('/bookingParcel', async(req, res) =>{
       const parcelData = req.body;
       const result = await parcelsCollection.insertOne(parcelData)
