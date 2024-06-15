@@ -50,7 +50,20 @@ async function run() {
         const result = await userCollection.insertOne(user);
         res.send(result);
     })
-
+    
+    // Update users
+    app.put("/updateUser/:id", async (req, res) => {
+      console.log(req.params.id)
+      const query = { _id: new ObjectId(req.params.id) };
+      const data = {
+          $set: {
+              type: req.body.type,
+          }
+      }
+      const result = await userCollection.updateOne(query, data);
+      console.log(result)
+      res.send(result)
+  })
     // Parcel related api
 
     app.get('/bookingParcels', async (req, res) =>{
@@ -73,8 +86,8 @@ async function run() {
 
 
     // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
+    // await client.db("admin").command({ ping: 1 });
+    // console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
     // Ensures that the client will close when you finish/error
     
